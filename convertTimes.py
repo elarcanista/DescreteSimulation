@@ -2,7 +2,6 @@ import sys
 import os
 import datetime as dt
 import re
-import csv
 
 def date2TimeSince(date, refDate):
     return int((date-refDate).total_seconds())
@@ -32,28 +31,31 @@ def parse(line, dateFields=[], timeFields=[], refDate=dt.datetime(1,1,1)):
         fields[i] = str2Time(fields[i])
     return fields
 
-def insert2Dict(d, item):
+def insert2Dict(d, item, dates, times):
     key = item[0]
+    submission = dates[0]
+    start = dates[1]
+    end = dates[2]
+    elapsed = times[0]
     if key in d:
         prevVal = d[key]
-        d[key][5] = min(prevVal[5], item[5]) #submission
-        d[key][6] = min(prevVal[6], item[6]) #start
-        d[key][7] = prevVal[7] + item[7]     #elapsed
-        d[key][8] = max(prevVal[8], item[8]) #end
+        d[key][submission] = min(prevVal[submission], item[submission]) #submission
+        d[key][start] = min(prevVal[start], item[start]) #start
+        d[key][end] = max(prevVal[end], item[end]) #end
+        d[key][elapsed] = d[key][end] - d[key][start]     #elapsed
     else:
         d[key] = item
 
 if __name__ == "__main__":
     uniqueProcess = {}
-    for i in range(1,len(sys.argv)):
-        inF = open(sys.argv[i], "r")
-        outF = open(os.path.splitext(sys.argv[i])[0]+'.out1', 'w')
-        headers = re.findall(r"[^|\n]+",inF.readline())
-        print(*headers, sep = '\t', file = outF)
-        for line in inF:
-            parsedLine = parse(line, [5,6,8], [4,7], dt.datetime(2018,1,1))
-            insert2Dict(uniqueProcess, parsedLine)
-        for key, item in uniqueProcess.items():
-            print(*item, sep='\t', file=outF)
-        inF.close()
-        outF.close()
+    inF = open(sys.argv[1], "r")
+    outF = open("in.out", "w")
+    headers = re.findall(r"[^|\n]+",inF.readline())
+    print(*headers, sep = '\t', file = outF)
+    for line in inF:
+        parsedLine = parse(line, [3,4,6], [5], dt.datetime(2017,2,1))
+        insert2Dict(uniqueProcess, parsedLine, [3,4,6], [5])
+    for key, item in uniqueProcess.items():
+        print(*item, sep='\t', file=outF)
+    inF.close()
+    outF.close()
