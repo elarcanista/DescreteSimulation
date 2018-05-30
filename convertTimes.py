@@ -53,7 +53,7 @@ if __name__ == "__main__":
     headers = re.findall(r"[^|\n]+",inF.readline())
     print(*headers, sep = '\t', file = outF)
     for line in inF:
-        parsedLine = parse(line, [3,4,6], [5], dt.datetime(2017,2,1))
+        parsedLine = parse(line, [3,4,6], [5], dt.datetime(2017,2,20,8,3,43))
         insert2Dict(uniqueProcess, parsedLine, [3,4,6], [5])
     for key, item in uniqueProcess.items():
         print(*item, sep='\t', file=outF)
