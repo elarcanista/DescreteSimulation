@@ -31,8 +31,7 @@ def parse(line, dateFields=[], timeFields=[], refDate=dt.datetime(1,1,1)):
         fields[i] = str2Time(fields[i])
     return fields
 
-def insert2Dict(d, item, dates, times):
-    key = item[0]
+def insert2Dict(d, item, dates, times, key, state):
     submission = dates[0]
     start = dates[1]
     end = dates[2]
@@ -43,6 +42,8 @@ def insert2Dict(d, item, dates, times):
         d[key][start] = min(prevVal[start], item[start]) #start
         d[key][end] = max(prevVal[end], item[end]) #end
         d[key][elapsed] = d[key][end] - d[key][start]     #elapsed
+        if d[key][state] != "FAILED":
+            prevVal[state] = item[state]
     else:
         d[key] = item
 
@@ -53,9 +54,14 @@ if __name__ == "__main__":
     headers = re.findall(r"[^|\n]+",inF.readline())
     print(*headers, sep = '\t', file = outF)
     for line in inF:
-        parsedLine = parse(line, [3,4,6], [5], dt.datetime(2017,2,20,8,3,43))
-        insert2Dict(uniqueProcess, parsedLine, [3,4,6], [5])
+        parsedLine = parse(line, [3,4,6], [5], str2Date("2017-04-26T09:24:54"))
+        insert2Dict(uniqueProcess, parsedLine, [3,4,6], [5], parsedLine[0],2)
+
+    submitDict = {}
     for key, item in uniqueProcess.items():
+        insert2Dict(submitDict,item,[3,4,6],[5], item[3],2)
+
+    for key, item in submitDict.items():
         print(*item, sep='\t', file=outF)
     inF.close()
     outF.close()
