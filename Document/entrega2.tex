@@ -13,8 +13,7 @@
 
 \WSCpagesetup{Ortega and Salgado}
 
-\title{FARMERS, BANDITS AND SOLDIERS AN AGENT BASED SIMULATION ABOUT
-       DELINQUENCY IN THE SOCIETY}
+\title{QUEUE ANALYSIS FOR A SUPERCOMPUTING CENTER}
 
 \author{Andrés Felipe Ortega Montoya\\ [12pt]
 aortega7@eafit.edu.co\\
@@ -31,7 +30,95 @@ Universidad EAFIT\\
 
 \section{Conceptual modeling}
 
-algo \cite{netlogo}
+\subsection{Problem definition}
+
+The increment of data and problem sizes in the last couple of years has
+triggered an unprecedented growth in the necessity of computational
+power. This necessity has induced an increase in the utilization of
+elements like supercomputers.
+
+Due to the high amount of tasks a supercomputer has to process
+it has become of great importance to device systems to control the
+order in which resources are assigned to jobs. However due to how
+varied the amount of time each of these can take to compute, it can
+constitute a problem to provide reasonable waiting times for all of its
+users.
+
+This situation produce a decrement in the quality of service
+due to the high demand of the resources that a computing center offers.
+For this reason the ideas and solutions that the discrete simulation can provide
+are specially useful for this type of establishments, mainly because of
+the improvements that can be made in terms of attention time and resource
+utilization.
+
+\subsection{Objectives}
+
+\subsubsection{Model purpose}
+
+The current model aims to present a simplified version of the the real system
+in order to examine its behavior. This with the intention of understanding which
+possible set of causes explains the current waiting times and  if possible determine
+modifications that can improve the provided service for most of the user population.
+
+\subsubsection{Specific objectives}
+
+\begin{itemize}
+    \item Have a discrete event modeling aproach of a real system to study the phenomenon
+    \item Create an abstraction in order to better understand
+          the process that characterized the real system.
+    \item Analyze the behavior of the entities in each of the steps of the process.
+    \item If possible, suggest ideas to optimize the performance of the actual system.
+\end{itemize}
+
+\subsubsection{Project objective}
+
+This project aims to model the Scientific Computing Center APOLO as a
+discrete event simulation. The main objective is to experiment the
+application of the theory addressed in the course by working with a real
+system. The intention is to analyze the occupation process of the
+supercomputer and if it is possible, suggest alternatives to improve
+the performance of the computing center in terms of attention to users
+and resource utilization.
+
+\subsection{Inputs and outputs}
+
+\subsection{Contents}
+
+\subsubsection{Scope}
+\subsubsection{Detail level}
+\subsubsection{Assumptions}
+
+Apolo has a single queue with exponential distribution (lambda = 35)
+
+\subsubsection{Simplifications}
+
+Everything, we are basically modeling a single queue with exponential distribution
+
+\section{State of the art}
+
+\section{Data}
+
+\section{Implementation}
+
+\section{Verification and validation}
+
+\section{Experimentation}
+
+\subsection{Results}
+
+\subsubsection{model nature} Salvaje y despiadado (Solo quiere ver el mundo arder)
+\subsubsection{Output nature}
+\subsubsection{Initial bias}
+\subsubsection{Number of executions}
+\subsubsection{Solution space}
+
+\subsection{Sensitivity analysis}
+
+\section{Conclusions}
+
+\begin{itemize}
+    \item This model is awesome! \cite{slurm}
+\end{itemize}
 
 \bibliographystyle{wsc}
 \bibliography{entrega2}
