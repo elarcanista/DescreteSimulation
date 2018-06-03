@@ -93,23 +93,36 @@ and resource utilization.
 \subsubsection{Outputs}
 
 \begin{itemize}
-    \item
+    \item Average time in queue.
+    \item Average time in the system.
+    \item Number of jobs completed.
+    \item utilization and idle percentages from both queues and nodes.
 \end{itemize}
 
 \subsection{Contents}
 
 \subsubsection{Scope}
 
-
+This project aims to simulate the three main queues of the Cientific Computing
+Center APOLO as a discrete event model. Data from the three months with a higher
+usage were selected to feed the model. The main purpose is not to use the model
+to improve the system but to have a first hand approach to the modeling process
+of a real system by appliyng the knowledge acquired in the class.
 
 \subsubsection{Detail level}
 
-
+The model only considers the three main queues of APOLO. Each of the queues are
+modeled independently and their jobs are classified based on the time they
+expend doing computations (seconds, minutes, hours or days).  Each job can
+represent a group of similar jobs. All computing nodes from the Computing
+Center are taken into account, but nodes are taken as composed exclusively by
+CPUs, other hardware is not taken into account.
 
 \subsubsection{Assumptions}
 
 \begin{itemize}
     \item The number of arrivals per hour is taken as a poisson process.
+    \item Each queue is independent to manage their jobs.
     \item Jobs label as failed have a execution time of 0.
 \end{itemize}
 
@@ -119,6 +132,7 @@ and resource utilization.
     \item Only the three main queues of APOLO are taken into account.
     \item Groups of jobs are taken as a single job with a higher execution time.
     \item Queues are assume to be empty at the begining of the simulation.
+    \item Only CPUs are taken into account as resources.
 \end{itemize}
 
 \section{State of the art}
