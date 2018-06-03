@@ -8,6 +8,7 @@
 \usepackage{subcaption}
 \usepackage[utf8]{inputenc}
 \usepackage[table]{xcolor}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -32,20 +33,18 @@ Universidad EAFIT\\
 
 \subsection{Problem definition}
 
-The increment of data and problem sizes in the last couple of years has
-triggered an unprecedented growth in the necessity of computational
-power. This necessity has induced an increase in the utilization of
+The growth of data and problem sizes in the last couple of years has
+triggered an unprecedented increase in the need of computational
+power. This need has induced a boost in the utilization of
 elements like supercomputers.
 
-Due to the high amount of tasks a supercomputer has to process
-it has become of great importance to device systems to control the
-order in which resources are assigned to jobs. However due to how
-varied the amount of time each of these can take to compute, it can
-constitute a problem to provide reasonable waiting times for all of its
-users.
+Because of this, the computing centers are experimenting an unprecedented growth
+in the amount of tasks to process. Thus the problem of resource assignation has
+become an issue of great importance for this type of systems in order to
+provide a good service and achieve a better use of their resources. However due
+to the varied amount of time each of the jobs can take to compute, it
+constitute a problem to provide a reasonable waiting time to all users.
 
-This situation produce a decrement in the quality of service
-due to the high demand of the resources that a computing center offers.
 For this reason the ideas and solutions that the discrete simulation can provide
 are specially useful for this type of establishments, mainly because of
 the improvements that can be made in terms of attention time and resource
@@ -55,19 +54,22 @@ utilization.
 
 \subsubsection{Model purpose}
 
-The current model aims to present a simplified version of the the real system
-in order to examine its behavior. This with the intention of understanding which
-possible set of causes explains the current waiting times and  if possible determine
-modifications that can improve the provided service for most of the user population.
+The current model aims to present a simplified version of a real supercomputing
+system in order to analyse its behavior. The main intention is to understand
+which possible set of causes explains the principal waiting times and, if
+possible, determine modifications that can improve the service for most
+of the user population.
 
 \subsubsection{Specific objectives}
 
 \begin{itemize}
-    \item Have a discrete event modeling aproach of a real system to study the phenomenon
-    \item Create an abstraction in order to better understand
-          the process that characterized the real system.
-    \item Analyze the behavior of the entities in each of the steps of the process.
-    \item If possible, suggest ideas to optimize the performance of the actual system.
+    \item Have a first hand approach to the process of create a descrete event
+          model of a real system.
+    \item Use a descrete event model to better understand the process that
+          characterized a supercomputer.
+    \item Analyze the behavior at each step of the process in the system.
+    \item If possible, suggest ideas to optimize the performance of the actual
+          system.
 \end{itemize}
 
 \subsubsection{Project objective}
@@ -82,21 +84,184 @@ and resource utilization.
 
 \subsection{Inputs and outputs}
 
+\subsubsection{Inputs}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
+\subsubsection{Outputs}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
 \subsection{Contents}
 
 \subsubsection{Scope}
+
+
+
 \subsubsection{Detail level}
+
+
+
 \subsubsection{Assumptions}
 
-Apolo has a single queue with exponential distribution (lambda = 35)
+\begin{itemize}
+    \item The number of arrivals per hour is taken as a poisson process.
+    \item Jobs label as failed have a execution time of 0.
+\end{itemize}
 
 \subsubsection{Simplifications}
 
-Everything, we are basically modeling a single queue with exponential distribution
+\begin{itemize}
+    \item Only the three main queues of APOLO are taken into account.
+    \item Groups of jobs are taken as a single job with a higher execution time.
+    \item Queues are assume to be empty at the begining of the simulation.
+\end{itemize}
 
 \section{State of the art}
 
 \section{Data}
+
+APOLO has slurm \cite{slurm} as resource manager, which means that slurm is in
+charge of control the assignation of resources that each job needs. This program
+works by mange queues where jobs wait for their resources to be released in
+order to start their excecution. This program stores all the information related
+to the resource management in a relational database, which allows an easy
+access to the information about the cluster utilization.\\
+
+The allocation process is splited in three main queues. They are
+\begin{itemize}
+    \item \textbf{longjobs:} queue for jobs that are intensive in the use of CPU.
+    \item \textbf{accel:} queue for jobs that use GPU computation.
+    \item \textbf{bigmem:} queue for jobs that use large amount of memory.
+\end{itemize}
+
+The data used in this work comes from jobs that were either waiting or executing
+at the supercomputer from May to July of 2017, which are the months with higher
+demand of resources in that year. A sample of this data looks like
+this
+
+\begin{itemize}
+    \item \textbf{JobID:} 44256
+    \item \textbf{AllocCPUS:} 32
+    \item \textbf{State:} COMPLETED
+    \item \textbf{Submit:} 2017-04-27T05:42:00
+    \item \textbf{Start:} 2017-05-02T07:59:01
+    \item \textbf{Elapsed:} 1-09:26:13
+    \item \textbf{End:} 2017-05-03T17:25:14
+    \item \textbf{Partition:} longjobs
+\end{itemize}
+
+This data was used to estimate two main groups of distributions and parameters,
+the ones related to interarrival time of jobs and the ones related to execution
+time, both for each queue.
+
+In the case of the interarrival time the information that is needed is the
+number of jobs per hour. This in order to estimate the parameter of an
+exponential distribution as 1 over the number of jobs per hour, since the
+process of arrivales is taken as described by a poisson distribution.
+The results are shown in Figures \ref{arrival_longjobs}, \ref{arrival_accel} and
+\ref{arrival_bigmem}.
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{./images/average_arrivals_longjobs}
+\caption{Average number of jobs per hour (longjobs)}
+\label{arrival_longjobs}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{./images/average_arrivals_accel}
+\caption{Average number of jobs per hour (accel)}
+\label{arrival_accel}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{./images/average_arrivals_bigmem}
+\caption{Average number of jobs per hour (bigmem)}
+\label{arrival_bigmem}
+\end{figure}
+
+Finally it was found that the execution time of jobs could be represented with
+probability distributions. This because of the sparce autocorrelation plots that
+results when groups of jobs submited at the same time and
+whith similar requests of resources are joined in a single job with higher
+execution time. With this in mind a kolmogorov smirnov test was conducted to
+estimate the distributions. \\
+
+Its important to highlight that the execution time varies from seconds to days,
+so analysis of the process was splited in order to work with samples in the same
+units of time. The division consists in work with jobs in the following ranges
+of time
+
+\begin{itemize}
+    \item 1 to 60 seconds
+    \item 1 to 60 minutes
+    \item 1 to 24 hours
+    \item 1 to the maximum number of days that a job can use
+\end{itemize}
+
+The results are shown in Tables \ref{distributions_longjobs},
+\ref{distributions_accel} and \ref{distributions_bigmem}.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ | c | c | c | c |}
+        \hline
+        \textbf{Time unit} & \textbf{distribution} & \textbf{parameters} & \textbf{p-value} \\
+        \hline
+        Seconds & Uniform & a=1, b=56 & 0.88 \\
+        \hline
+        Minutes & Beta & $\alpha_1$=1.3, $\alpha_2$=11.2, min=0, max=83.3 & 0.82 \\
+        \hline
+        Hours & Beta & $\alpha_1$=1.28, $\alpha_2$=1.61, min=0, max=23.4 & 0.76 \\
+        \hline
+        Days & Empirical & N/A & N/A \\
+        \hline
+    \end{tabular}
+    \caption{Execution time distributions (longjobs)}
+    \label{distributions_longjobs}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ | c | c | c | c |}
+        \hline
+        \textbf{Time unit} & \textbf{distribution} & \textbf{parameters} & \textbf{p-value} \\
+        \hline
+        Seconds & Empirical & N/A & N/A \\
+        \hline
+        Minutes & Empirical & N/A & N/A \\
+        \hline
+        Hours & Empirical & N/A & N/A \\
+        \hline
+        Days & Gamma & $\alpha$=0.94, $\beta$=1.87 & 0.95 \\
+        \hline
+    \end{tabular}
+    \caption{Execution time distributions (accel)}
+    \label{distributions_accel}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ | c | c | c | c |}
+        \hline
+        \textbf{Time unit} & \textbf{distribution} & \textbf{parameters} & \textbf{p-value} \\
+        \hline
+        Seconds & Uniform & a=1, b=60 & 7.6 \\
+        \hline
+        Minutes & Gamma & $\alpha$=0.7, $\beta$=18.2 & 0.73 \\
+        \hline
+        Hours & Gamma & $\alpha$=0.91, $\beta$=6.99 & 0.66 \\
+        \hline
+        Days & Gamma & $\alpha$=2.24, $\beta$=1.01 & 0.941 \\
+        \hline
+    \end{tabular}
+    \caption{Execution time distributions (bigmem)}
+    \label{distributions_bigmem}
+\end{table}
 
 \section{Implementation}
 
@@ -117,7 +282,7 @@ Everything, we are basically modeling a single queue with exponential distributi
 \section{Conclusions}
 
 \begin{itemize}
-    \item This model is awesome! \cite{slurm}
+    \item This model is awesome!
 \end{itemize}
 
 \bibliographystyle{wsc}
